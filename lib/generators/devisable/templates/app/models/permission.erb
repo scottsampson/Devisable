@@ -1,0 +1,7 @@
+class Permission < ActiveRecord::Base
+  belongs_to :role
+  
+  def ==(another_permission)
+    self.role_id == another_permission.role_id && self.controller == another_permission.controller && self.ability == another_permission.ability ? true : false
+  end
+end

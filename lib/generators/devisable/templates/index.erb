@@ -1,0 +1,27 @@
+<h1>Listing Users</h1>
+
+<table>
+  <tr>
+    <th>Email</th>
+    <th>Roles</th>
+    <th></th>
+    <th></th>
+  </tr>
+
+  <!-- table header stuff here -->
+  <%% @users.each do |u| %>
+    <tr>
+      <td><%%= "#{u.email}" %></td>
+      <td><%%= "#{u.roles.collect{|r| r.name}}" %></td>
+      <td><%%= link_to 'Show', user_path(u.id) %></td>
+      <td><%%= link_to_if(can?(:edit, User), 'Edit', edit_user_path(u.id)) {} %></td>
+      <%% if !(@super_admins.count == 1 && u.roles.include?(@super_admin_role)) %>
+        <td><%%= link_to_if(can?(:delete, u), 'Delete', u, :confirm => "Are you sure?", :method => :delete) {} %></td>
+      <%% else %>
+        <td><span title="Can NOT delete the last SuperAdmin user">Delete</span></td>
+      <%% end %>
+    </tr>
+  <%% end %>
+</table>
+
+<br />

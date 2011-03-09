@@ -1,0 +1,55 @@
+<h3><%%= @user.email %></h3>
+ 
+<%%= link_to_if(can?(:update,@user), "Edit", edit_user_path(@user)) %> |
+<%%= link_to_if(can?(:delete, @user), "Delete", user_path(@user), :confirm => "Are you sure?", :method => :delete) {} %>
+ 
+<table class="one-column-emphasis">
+	<tbody>
+		<tr>
+			<td class="oce-first">Email:</td>
+			<td><%%= @user.email %></td>
+		</tr>
+		<tr>
+			<td class="oce-first">Username:</td>
+			<td><%%= @user.username %></td>
+		</tr>
+		<tr>
+			<td class="oce-first">Role:</td>
+			<td><%%= @user.roles.first.name %></td>
+		</tr>
+	<%% puts can?(:see_timestamps,User).inspect; if can?(:see_timestamps,User) %>
+		<tr>
+			<td class="oce-first">Created at:</td>
+			<td><%%= @user.created_at %></td>
+		</tr>
+		<tr>
+			<td class="oce-first">Last Sign In:</td>
+			<td><%%= @user.last_sign_in_at %></td>
+		</tr>
+		<tr>
+			<td class="oce-first">Sign In Count:</td>
+			<td><%%= @user.sign_in_count %></td>
+		</tr>
+	<%% end %>
+	<%% if @user.respond_to?(:oauth_profiles) %>
+  	<%% @user.oauth_profiles.each do |profile| %>
+  	  <tr>
+  			<td class="oce-first"><%%= profile.provider %> username:</td>
+  			<td><%%= profile.username %></td>
+  		</tr>
+  		<tr>
+  			<td class="oce-first"><%%= profile.provider %> email:</td>
+  			<td><%%= profile.email %></td>
+  		</tr>
+  		<tr>
+  			<td class="oce-first"><%%= profile.provider %> name:</td>
+  			<td><%%= profile.name %></td>
+  		</tr>
+  		<tr>
+  			<td class="oce-first"><%%= profile.provider %> image:</td>
+  			<td><img src='<%%= profile.img_url %>' /></td>
+  		</tr>
+  	<%% end %>
+  <%% end %>
+	</tbody>
+</table>

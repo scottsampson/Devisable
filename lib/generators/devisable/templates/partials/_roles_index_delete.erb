@@ -1,0 +1,7 @@
+<td>
+  <%% if role.users.length > 0 %>
+    <span title="Roles with associated users cannot be deleted">Delete</span>
+    <%% else %>
+    <%%= link_to_if(can?(:delete, Role), 'Destroy', role, :confirm => 'Are you sure?', :method => :delete) %></td>
+    <%% end %>
+</td>

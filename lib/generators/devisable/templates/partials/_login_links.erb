@@ -1,0 +1,18 @@
+<ul id='generated_login_links'>
+  <%% if !current_user %>
+  <% if @has_facebook_oauth %>
+    <li><%%= link_to('Login With Facebook', users_path(:warden_oauth2_provider => 'facebook')) %></li>
+  <% end %>
+  <% if @has_twitter_oauth %>
+    <li><%%= link_to('Login With Twitter', users_path(:warden_oauth_provider => 'twitter')) %></li>
+  <% end %>
+  <% if @has_standard_authentication %>
+    <li><%%= link_to('Login', user_session_path()) %></li>
+    <li><%%= link_to('Register', new_user_registration_path()) %></li>
+  <% end %>
+  <%% else %>
+    <li>Welcome <%%= current_user.display_name %></li>
+    <li><%%= link_to('Logout', destroy_user_session_path()) %></li>
+  <%% end %>
+</ul>
+<%%= render 'shared/admin_nav' %>

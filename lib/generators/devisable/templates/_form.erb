@@ -1,0 +1,23 @@
+<%%= form_for(@user) do |f| %>
+  
+  <!-- extra fields go here -->
+  
+  <p><%%= f.label :email %></p>
+  <p><%%= f.text_field :email %></p>
+
+  <%% if can? :read, Role %>
+  	<p><%%= f.label :role %></p>
+  	<ul class="no-pad no-bullets">
+  		<%%= habtm_checkboxes(@user, :role_ids, @accessible_roles, :name) %>
+  	</ul>
+  <%% end %>
+  
+  <% if @show_password %>
+  <p><%%= f.label :password %> <i>(leave blank if you don't want to change it)</i></p>
+  <p><%%= f.password_field :password %></p>
+
+  <p><%%= f.label :password_confirmation %></p>
+  <p><%%= f.password_field :password_confirmation %></p>
+  <% end %>
+  <p><%%= f.submit "Submit" %></p>
+<%% end %>

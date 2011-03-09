@@ -1,0 +1,8 @@
+def after_sign_in_path_for(resource)
+  (session[:"user.return_to"].nil?) ? "/" : session[:"user.return_to"].to_s
+end
+
+rescue_from CanCan::AccessDenied do |exception|
+  flash[:notice] = exception.message
+  redirect_to root_url
+end

@@ -1,0 +1,7 @@
+<ul id="navigation">
+  <%% if can?(:view, Role) || can?(:view, User) %>
+    <li><%%= link_to_if(can?(:view, User), 'Users', users_path, :class => ( "on" if current_tab?('users') )) %></li>
+    <li><%%= link_to_if(can?(:view, Role), 'Roles', roles_path, :class => ( "on" if current_tab?('roles') )) %></li>
+  <%% end %>
+</ul>
+<div class="clear">&nbsp;</div>

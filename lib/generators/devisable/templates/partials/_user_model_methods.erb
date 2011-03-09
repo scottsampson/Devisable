@@ -1,0 +1,9 @@
+  def display_name
+    return self.username.blank? ? self.email : self.username
+  end
+
+  class << self
+    def superadmins
+      joins("join roles_users on users.id = roles_users.user_id").where("roles_users.role_id = (select role_id from roles where name = 'SuperAdmin')");
+    end
+  end
