@@ -1,11 +1,11 @@
 Given /^there are no roles in the system$/ do
   @roles = Role.all
-  @roles.each { |@role| @role.delete }
+  @roles.each { |role| role.delete }
 end
 
 Given /^there is only the "([^"]*)" role in the system$/ do |role_name|
   @roles = Role.all
-  @roles.each { |@role| @role.delete unless @role.name == role_name }
+  @roles.each { |role| role.delete unless role.name == role_name }
 end
 
 

@@ -387,6 +387,7 @@ class DevisableGenerator < Rails::Generators::Base
       template('cucumber/step_definitions/role_steps.rb', 'features/step_definitions/role_steps.rb')
       template('cucumber/step_definitions/user_steps.rb', 'features/step_definitions/user_steps.rb')
       # support 
+      #empty_directory "features/support"
       rep_str = load_erb_string('cucumber/support/_paths_partial.rb')
       insert_into_file('features/support/paths.rb', rep_str, :after => "case page_name\n")
       # this edit to the cucumber env file may be caused by rails 3.0.1 and can be removed after testing

@@ -1,6 +1,6 @@
 Given /^there are no users in the system$/ do
   @users = User.all
-  @users.each { |@user| @user.delete! }
+  @users.each { |user| user.delete! }
 end
 
 When /^I delete the other user$/ do
