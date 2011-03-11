@@ -1,5 +1,11 @@
+# Model for storing cancan permissions
 class Ability
   include CanCan::Ability
+  
+    # When a user is created, setup permissions based on the role and permission models
+    # If the user has the super admin role, give access to all actions on all controllers
+    #
+    # @param user Optionally pass the user.  A new user is created if no user is supplied
     def initialize(user)
     user ||= User.new # guest user
     user.roles.each do |role|

@@ -1,3 +1,10 @@
+# Creates checkboxes for a has and belongs to many relationship between ?
+#
+# @param obj An instance of a model with the specified field
+# @param column The attribute of the obj parameter used to determine if the assignment_object is assigned to the obj parameter
+# @param assignment_objects A list of objects with a habtm relationship with the obj parameter
+# @param assignment_object_display_column The field on the assignment_objects used to create the label for the checkboxes
+# @returns [String] An html string of checkboxes for the relationship between the obj and assignment_objects
 def habtm_checkboxes(obj, column, assignment_objects, assignment_object_display_column)
   obj_to_s = obj.class.to_s.split("::").last.underscore
   field_name = "#{obj_to_s}[#{column}][]"
@@ -12,6 +19,14 @@ def habtm_checkboxes(obj, column, assignment_objects, assignment_object_display_
   html
 end
 
+# Creates permission checkboxes for each type of permission and permission category.
+# Permission types include manage, read, create, update, and destroy.  They are hardcoded in this method.
+#
+# @param obj An instance of the Role model or any model with a habtm relationship with Permission
+# @param column Not used
+# @param controllers A list of controllers that can have permissions applied to them
+# @param role_id Id that corresponds to an instance of the role model.  Should refer to the same object as the obj parameter.
+# @return [String] Html safe string of permissions checkboxes for each controller and action
 def permissions_checkboxes(obj, column, controllers, role_id)
   perms =  obj.permissions
   puts perms.class
@@ -35,11 +50,6 @@ def permissions_checkboxes(obj, column, controllers, role_id)
         html_tr = ""
         html_tr += content_tag(:td," ")
         abilities.each do |ability|
-          # p = Permission.new
-          #             
-          #             p.role_id = role_id
-          #             p.controller = controller
-          #             p.ability = ability
           p = {
             :role_id => role_id,
             :model => controller.singularize,

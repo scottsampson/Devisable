@@ -1,3 +1,5 @@
+  # Returns the user's email or username depending on which is set
+  # @return [String] Return username unless it is blank, then return email
   def display_name
     return self.username.blank? ? self.email : self.username
   end
