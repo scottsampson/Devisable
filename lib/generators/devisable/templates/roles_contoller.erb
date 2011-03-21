@@ -47,7 +47,7 @@ class RolesController < ApplicationController
 
     respond_to do |format|
       if @role.save
-        save_permissions(@role,params[:role_ids])
+        @role.save_permissions(@role,params[:role_ids])
         format.html { redirect_to(@role, :notice => 'The role has been created.') }
         format.xml  { render :xml => @role, :status => :created, :location => @role }
       else
@@ -64,8 +64,7 @@ class RolesController < ApplicationController
 
     respond_to do |format|
       if @role.update_attributes(params[:role])
-        #puts @role.permissions.methods.sort.inspect
-        save_permissions(@role,params[:role_ids])
+        @role.save_permissions(@role,params[:role_ids])
         format.html { redirect_to(@role, :notice => 'The role has been updated.') }
         format.xml  { head :ok }
       else

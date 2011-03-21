@@ -344,7 +344,9 @@ class DevisableGenerator < Rails::Generators::Base
     gsub_file "app/views/roles/_form.html.erb" , /^[\s]*(<div class="actions">)[\s]+(<%= f.submit %>)[\s]+(<\/div>)/m, "<p><%= f.label :permission %></p>\n <ul class=\"no-pad no-bullets\">\n <%= permissions_checkboxes(@role, :permission_ids, @accessible_permissions, @role.id) %>\n </ul>\n <div class=\"actions\">\n      <%= f.submit %>\n    </div>"
     
     
-    rep_str = load_erb_string('partials/_accessible_permissions.rb')
+    rep_str = load_erb_string('partials/_accessible_permissions_model.rb')
+    gsub_file "app/models/roles.rb" , /^(\s)*end\Z/m, rep_str
+    rep_str = load_erb_string('partials/_accessible_permissions_controller.rb')
     gsub_file "app/controllers/roles_controller.rb" , /^(\s)*end\Z/m, rep_str
     gsub_file "app/controllers/roles_controller.rb" , "format.html { redirect_to(roles_url) }", "format.html { redirect_to(roles_url, :notice => 'Role was successfully deleted.') }"
   end
@@ -408,6 +410,13 @@ class DevisableGenerator < Rails::Generators::Base
   def modify_css
     gsub_file('public/stylesheets/scaffold.css', "#notice {", "#notice, div.notice {")
   end
+  
+  def add_rspec_tests
+    ['ability_spec','permission_spec','role_spec','user_spec'].each do |filename| 
+      template('spec/models/#{filename}.erb', 'spec/models/#{filename}.rb')
+    end
+    template('roles/helpers/roles_helper_spec.erb', 'spec/models/roles_helper_spec.rb')
+  end
       
   def execute
     add_devise_gems
@@ -428,6 +437,7 @@ class DevisableGenerator < Rails::Generators::Base
     add_cucumber_tests
     add_default_mailer_config
     modify_css
+    add_rspec_tests
   end
 
 end

@@ -1,3 +1,12 @@
+  validate :username_or_email_exists  
+  
+  # Used for validation.  Validates whether a username or email exists because one is required.
+  def username_or_email_exists
+    if username.blank? && email.blank?
+      self.errors.add(:email, "or Username is required.")
+    end
+  end
+  
   # Returns the user's email or username depending on which is set
   # @return [String] Return username unless it is blank, then return email
   def display_name
