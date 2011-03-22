@@ -4,7 +4,7 @@
 # @param column The attribute of the obj parameter used to determine if the assignment_object is assigned to the obj parameter
 # @param assignment_objects A list of objects with a habtm relationship with the obj parameter
 # @param assignment_object_display_column The field on the assignment_objects used to create the label for the checkboxes
-# @returns [String] An html string of checkboxes for the relationship between the obj and assignment_objects
+# @return [String] An html string of checkboxes for the relationship between the obj and assignment_objects
 def habtm_checkboxes(obj, column, assignment_objects, assignment_object_display_column)
   obj_to_s = obj.class.to_s.split("::").last.underscore
   field_name = "#{obj_to_s}[#{column}][]"

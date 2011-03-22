@@ -32,6 +32,9 @@ class DevisableGenerator < Rails::Generators::Base
     'url' => 'http://localhost:3000'
   }
   
+  
+  #setups up configuration options from command line
+  #@param runtime_args [string,nil] arguments passed in via command line
   def initialize(*runtime_args)
     super(*runtime_args)
     #@tut_args = runtime_args
@@ -92,17 +95,25 @@ class DevisableGenerator < Rails::Generators::Base
     execute
   end
   
+  #stops execution and prints error if an important enough error occurs
+  #@param error [string] The string that gets printed out when the error is thrown
   def throw_error(error = '')
     puts error
     exit();
   end  
   
+  #replaces the last string 'end' in a file with the value of rep_str
+  #
+  #@param filename [string] file that will be manipulated
+  #@param rep_str [string] what the last end in the file will be replaced with
+  #@return nil
   def replace_last_end_in_file_with(filename,rep_str)
     gsub_file filename , /^(.*)end$/m, "\\1" + rep_str + "\nend"
   end
   
-  def add_devise_gems
-    
+  #Adds all the necessary gems
+  
+  def add_gems
     sudo = ''
     if @@actual_configuration_options['sudo']
       sudo = 'sudo '
@@ -134,6 +145,7 @@ class DevisableGenerator < Rails::Generators::Base
     end    
   end    
       
+  #generates the devise user with option arguments from the 'extra' configuration options
   def generate_devise_user
     extra_args = ''
     for i in 0...@@actual_configuration_options['extra'].length
@@ -160,9 +172,11 @@ class DevisableGenerator < Rails::Generators::Base
     
     rep_str = load_erb_string('partials/_user_model_methods.erb')
     replace_last_end_in_file_with("app/models/user.rb",rep_str)
-    
   end
   
+  #grabs a certain migration file that already exists so it can be modified
+  #@param name excerpt of the name of the file you want
+  #@return the filename you were looking for
   def get_migration(name)
     basedir = './db/migrate'
     Dir.chdir(basedir)
@@ -171,7 +185,10 @@ class DevisableGenerator < Rails::Generators::Base
     return file
   end
   
-  def load_erb_string(filename, options = {})
+  #loads a file from the templates folder and implements erb on it
+  #@param filename [string] Name of the file to be retrieved
+  #@return the data within the file after implementing erb
+  def load_erb_string(filename)
     @twitter_secret = @@actual_configuration_options['twitter_oauth'][1]
     @twitter_key = @@actual_configuration_options['twitter_oauth'][0]
     @facebook_secret = @@actual_configuration_options['facebook_oauth'][1]
@@ -182,13 +199,14 @@ class DevisableGenerator < Rails::Generators::Base
     return erb_file.result(binding)
   end
   
-  def load_file_string(filename, options = {})
+  #loads a file from the templates folder WITHOUT implementing erb
+  #@param filename [string] Name of the file to be retrieved
+  #@return the data within the file
+  def load_file_string(filename)
     file_path = File.expand_path("../templates", __FILE__) + '/' + filename
     erb_file = File.read(file_path)
     return erb_file
   end
-  
-  
   
     
   #checks for oauth
@@ -208,7 +226,7 @@ class DevisableGenerator < Rails::Generators::Base
       @url = @@actual_configuration_options['url']
       #/config/initializers/devise.rb
       remove_file "config/initializers/devise.rb"
-      template "devise_initializer.erb", "config/initializers/devise.rb"
+      template "config/initializers/devise_initializer.erb", "config/initializers/devise.rb"
       
       # remove user password from devise sign in page
       unless @@actual_configuration_options['config'].include?('1')
@@ -244,7 +262,7 @@ class DevisableGenerator < Rails::Generators::Base
     insert_into_file "app/views/layouts/application.html.erb", login_links, :after => "<body>\n"
   end
   
-  #check_for_confirmable
+  #adds confirmable code if the confirmable option for devise is included
   def confirmable
     if @@actual_configuration_options['config'].include?('4')
       user_migration_file = get_migration("devise_create_user")
@@ -257,7 +275,7 @@ class DevisableGenerator < Rails::Generators::Base
     end
   end
   
-  #check_for_confirmable
+  #adds lockable code if the lockable option for devise is included
   def lockable
     if @@actual_configuration_options['config'].include?('11')
       user_migration_file = get_migration("devise_create_user")
@@ -265,7 +283,7 @@ class DevisableGenerator < Rails::Generators::Base
     end
   end
   
-  
+  #adds the authenticate calls to the application controller
   def add_authentication_check_to_controllers
     insert_into_file "app/controllers/application_controller.rb", "before_filter :authenticate_user!, :except => []\n", :after => "class ApplicationController < ActionController::Base\n"
     
@@ -273,6 +291,7 @@ class DevisableGenerator < Rails::Generators::Base
     insert_into_file "app/controllers/application_controller.rb",methods + "\n", :after => "before_filter :authenticate_user!, :except => []\n"
   end
   
+  #installs cancan, updates the ability model, adds permission checks to views
   def install_cancan
     generate("cancan:ability")
     #create the Role model
@@ -305,12 +324,13 @@ class DevisableGenerator < Rails::Generators::Base
     insert_into_file "app/models/user.rb", rep_str, :after => "has_and_belongs_to_many :roles\n"
   end
 
-  
+  #add a customized registration controller
   def customize_registration_controller
-    template "registrations_controller.erb", "app/controllers/registrations_controller.rb"
+    template "app/controllers/registrations_controller.erb", "app/controllers/registrations_controller.rb"
     gsub_file "config/routes.rb" , "devise_for :users\n", "devise_for :users,  :controllers => { :registrations => \"registrations\" }\n"  
   end
-    
+  
+  #add a customize permission denied message for cancan  
   def customize_permission_denied_error
     if @@actual_configuration_options['denied']
       rep_str = load_erb_string('partials/_access_denied_flash.rb')
@@ -318,23 +338,24 @@ class DevisableGenerator < Rails::Generators::Base
     end
   end
   
+  #creates the user tool instead of using scaffolding
   def create_user_tool
     @show_password = @@actual_configuration_options['config'].include?('1')
     #TODO:  Have to make sure if they have changed the devise_for :users that we account for it here.
     insert_into_file "config/routes.rb", "resources :users", :after => "devise_for :users,  :controllers => { :registrations => \"registrations\" }\n"    
-    template "index.erb", "app/views/users/index.html.erb"
-    template "new.erb", "app/views/users/new.html.erb"
-    template "show.erb", "app/views/users/show.html.erb"
-    template "edit.erb", "app/views/users/edit.html.erb"
-    template "_form.erb", "app/views/users/_form.html.erb"
-    template "users_controller.erb", "app/controllers/users_controller.rb"
+    template "app/views/users/index.erb", "app/views/users/index.html.erb"
+    template "app/views/users/new.erb", "app/views/users/new.html.erb"
+    template "app/views/users/show.erb", "app/views/users/show.html.erb"
+    template "app/views/users/edit.erb", "app/views/users/edit.html.erb"
+    template "app/views/users/_form.erb", "app/views/users/_form.html.erb"
+    template "app/controllers/users_controller.erb", "app/controllers/users_controller.rb"
   end
   
+  #uses scaffold to create the roles tool but then overrides many of the methods
   def create_roles_tool
     #TODO:  Have to make sure if they have changed the devise_for :users that we account for it here.
     rep_str = load_file_string('partials/_role_permission.rb')
     insert_into_file "app/helpers/roles_helper.rb", rep_str, :after => "module RolesHelper\n"    
-    #template "roles_helper.rb", "app/helpers/roles_helper.rb"
     #most of this is done in the scaffold above
     gsub_file "app/views/roles/index.html.erb" , "<td><%= link_to 'Edit', edit_role_path(role) %></td>", "<td><%= link_to_if(can?(:edit, Role), 'Edit', edit_role_path(role)) %></td>"
     rep_str = load_erb_string('partials/_roles_index_delete.erb')
@@ -352,31 +373,35 @@ class DevisableGenerator < Rails::Generators::Base
     gsub_file "app/controllers/roles_controller.rb" , "format.html { redirect_to(roles_url) }", "format.html { redirect_to(roles_url, :notice => 'Role was successfully deleted.') }"
   end
   
+  #adds the shared navigation to the layout view
   def create_tool_navigation
     empty_directory "app/views/shared"
-    template "_admin_nav.erb", "app/views/shared/_admin_nav.html.erb"
+    template "app/views/shared/_admin_nav.erb", "app/views/shared/_admin_nav.html.erb"
     rep_str = load_erb_string('partials/_application_current_tab.rb')
     insert_into_file "app/helpers/application_helper.rb", rep_str, :after => "module ApplicationHelper\n"    
   end
   
+  #if the new option is selected removes the index file.  Adds a welcome controller. Adds the root route
   def new_project
     if @@actual_configuration_options['new']
       remove_file "public/index.html"
       insert_into_file "config/routes.rb", "root :to => 'welcome#index'", :after => "resources :users\n"
-      template "welcome_controller.erb", "app/controllers/welcome_controller.rb"
+      template "app/controllers/welcome_controller.erb", "app/controllers/welcome_controller.rb"
       empty_directory "app/views/welcome"
-      template "welcome_index.erb", "app/views/welcome/index.html.erb"
+      template "app/views/welcome/welcome_index.erb", "app/views/welcome/index.html.erb"
       insert_into_file "config/routes.rb", "root :to => 'welcome#index'", :after => "resources :users\n"
       rep_str = load_erb_string('partials/_application_flash.html.erb')
       insert_into_file "app/views/layouts/application.html.erb", rep_str, :after => "<%= render 'shared/admin_nav' %>\n"      
     end
   end
   
+  #adds the javascript for the role permissions checkboxes
   def add_javascript
     rep_str = load_erb_string('partials/_permission_manage.js')
     append_to_file "public/javascripts/application.js", rep_str
   end
 
+  #adds all the features and steps for cucumber tests
   def add_cucumber_tests
     if @@actual_configuration_options['cucumber']
       generate('cucumber:install')
@@ -402,16 +427,19 @@ class DevisableGenerator < Rails::Generators::Base
     end
   end
   
+  #if you want to send the confirmable email you need to set the default mailer
   def add_default_mailer_config
     rep_str = "config.action_mailer.default_url_options = { :host => \"#{@@actual_configuration_options['url']}\" }\n"
     insert_into_file "config/environments/development.rb", rep_str, :after => "config.action_mailer.raise_delivery_errors = false\n"
     insert_into_file "config/environments/test.rb", rep_str, :after => "config.action_mailer.delivery_method = :test\n"
   end
   
+  #add a little custom css for the flash notices
   def modify_css
     gsub_file('public/stylesheets/scaffold.css', "#notice {", "#notice, div.notice {")
   end
   
+  #adds the rspec tests
   def add_rspec_tests
     generate('rspec:install')
     ['ability_spec','permission_spec','role_spec','user_spec'].each do |filename| 
@@ -426,11 +454,12 @@ class DevisableGenerator < Rails::Generators::Base
       remove_file filename
     end
     template('spec/helpers/roles_helper_spec.erb', 'spec/helpers/roles_helper_spec.rb')
-    
   end
       
+  #feels a little procedural doesn't it.
+  #executes all the methods above in the correct order.    
   def execute
-    add_devise_gems
+    add_gems
     generate_devise_user
     generate_user_configuration
     check_for_oauth
