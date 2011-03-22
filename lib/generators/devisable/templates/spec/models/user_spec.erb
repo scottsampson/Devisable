@@ -42,8 +42,6 @@ describe User do
   end
   
   it "should only show Fred2 for the superadmins" do
-    puts @user.roles.inspect
-    puts User.superadmins.inspect
     User.superadmins.include?(@user2).should be_true
     User.superadmins.include?(@user).should be_false
   end

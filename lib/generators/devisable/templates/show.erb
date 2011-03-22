@@ -17,7 +17,6 @@
 			<td class="oce-first">Role:</td>
 			<td><%%= @user.roles.first.name %></td>
 		</tr>
-	<%% puts can?(:see_timestamps,User).inspect; if can?(:see_timestamps,User) %>
 		<tr>
 			<td class="oce-first">Created at:</td>
 			<td><%%= @user.created_at %></td>

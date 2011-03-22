@@ -96,7 +96,6 @@ class RolesController < ApplicationController
     @accessible_permissions = []
     controllers = Dir.new("#{RAILS_ROOT}/app/controllers").entries
     controllers = controllers.map { |controller|  controller.downcase.gsub("_controller.rb","").singularize if controller =~ /_controller/ }.compact
-    puts controllers.inspect
     models = Dir.new("#{RAILS_ROOT}/app/models").entries
     models.each do |model|
       mod = model.downcase.gsub(".rb","")
@@ -117,7 +116,6 @@ class RolesController < ApplicationController
     def save_permissions(role,role_ids)
       role.permissions.map{|perm|  perm.delete }
       role_ids.each do |permission|  
-        puts permission.inspect
         p = Permission.new(JSON.parse(permission))
         (p.class.reflect_on_all_associations(:has_many) & p.class.reflect_on_all_associations(:has_and_belongs_to_many)).each { |association|
           role.permissions << Permission.new(

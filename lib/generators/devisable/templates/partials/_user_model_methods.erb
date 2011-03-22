@@ -16,6 +16,6 @@
   class << self
     # Join to the user role habtm table that restricts output to super admins
     def superadmins
-      joins("join roles_users on users.id = roles_users.user_id").where("roles_users.role_id = (select role_id from roles where name = 'SuperAdmin')");
+      joins("join roles_users on users.id = roles_users.user_id").where("roles_users.role_id = (select id from roles where name = 'SuperAdmin')");
     end
   end

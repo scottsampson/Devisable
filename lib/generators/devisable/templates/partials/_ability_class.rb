@@ -10,7 +10,7 @@ class Ability
     user ||= User.new # guest user
     user.roles.each do |role|
       role.permissions.each do |permission|
-        can permission.ability.to_sym, Object::const_get(permission.model)
+        can permission.ability.downcase.to_sym, Object::const_get(permission.model)
         if permission.ability.to_s == 'manage'
           ['view','edit','delete','add'].each do |action|
             can action.to_sym, Object::const_get(permission.model)

@@ -16,7 +16,6 @@ describe RolesHelper do
   describe "#permission_checkboxes" do
     it "should contain a model that has controllers" do
       @role = Role.new
-      puts "inside - " + @role.inspect
       output = permissions_checkboxes(@role, :permission_ids, Role.accessible_permissions, @role.id)
       output['<th>Roles</th>'].should_not == nil
       output['<th>Users</th>'].should_not == nil
@@ -24,14 +23,12 @@ describe RolesHelper do
     
     it "should not contain a model that does not have a controller" do
       @role = Role.new
-      puts "inside - " + @role.inspect
       output = permissions_checkboxes(@role, :permission_ids, Role.accessible_permissions, @role.id)
       output['<th>Ability</th>'].should == nil
     end
     
     it "should not contain a model that does not have a controller" do
       @role = Role.new
-      puts "inside - " + @role.inspect
       output = permissions_checkboxes(@role, :permission_ids, Role.accessible_permissions, @role.id)
       output['<th>Ability</th>'].should == nil
     end

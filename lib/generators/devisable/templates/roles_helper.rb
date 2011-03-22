@@ -32,7 +32,6 @@ module RolesHelper
   # @return [String] Html safe string of permissions checkboxes for each controller and action
   def permissions_checkboxes(obj, column, controllers, role_id)
     perms =  obj.permissions
-    puts perms.class
     html = ""
     abilities = ['manage','read','create','update','destroy']
     html += content_tag(:table) do
@@ -67,7 +66,6 @@ module RolesHelper
             perm = Permission.new(p)
             checked = perms.include?(perm)
             #checked = false
-            puts checked
             html_tr += content_tag(:td) do
               check_box_tag 'role_ids[]',p.to_json,checked, {:id => "permission_#{controller}_#{ability}", :class => "permission_#{ability}"}
             end

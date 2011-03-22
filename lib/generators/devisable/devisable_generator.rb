@@ -292,9 +292,9 @@ class DevisableGenerator < Rails::Generators::Base
     insert_into_file "app/models/role.rb", "has_and_belongs_to_many :users\n", :after => "class Role < ActiveRecord::Base\n"
     insert_into_file "app/models/role.rb", "has_many :permissions\nvalidates_presence_of :name\n", :after => "has_and_belongs_to_many :users\n"
     insert_into_file "app/controllers/roles_controller.rb", "before_filter :accessible_permissions, :only => [:new, :edit, :show, :update, :create]\nload_and_authorize_resource\n", :after => "class RolesController < ApplicationController\n"
-    insert_into_file "app/controllers/roles_controller.rb", "save_permissions(@role,params[:role_ids])\n", :after => "if @role.update_attributes(params[:role])\n"
+    insert_into_file "app/controllers/roles_controller.rb", "@role.save_permissions(params[:role_ids])\n", :after => "if @role.update_attributes(params[:role])\n"
     
-    insert_into_file "app/controllers/roles_controller.rb", "save_permissions(@role,params[:role_ids]) \n", :after => "if @role.save\n"
+    insert_into_file "app/controllers/roles_controller.rb", "@role.save_permissions(params[:role_ids]) \n", :after => "if @role.save\n"
     insert_into_file "app/models/permission.rb", "belongs_to :role\n", :after => "class Permission < ActiveRecord::Base\n"
     rep_str = load_erb_string('partials/_permission_equals.rb')
     insert_into_file "app/models/permission.rb", rep_str, :after => "belongs_to :role\n"
@@ -413,11 +413,20 @@ class DevisableGenerator < Rails::Generators::Base
   end
   
   def add_rspec_tests
+    generate('rspec:install')
     ['ability_spec','permission_spec','role_spec','user_spec'].each do |filename| 
       remove_file "spec/models/#{filename}.rb"
       template("spec/models/#{filename}.erb", "spec/models/#{filename}.rb")
     end
-    template('spec/helpers/roles_helper_spec.erb', 'spec/models/roles_helper_spec.rb')
+    removing_files = ['spec/controllers/roles_controller_spec.rb','spec/helpers/roles_helper_spec.rb']
+    removing_files += ['spec/views/roles/edit.html.erb_spec.rb','spec/views/roles/index.html.erb_spec.rb']
+    removing_files += ['spec/views/roles/new.html.erb_spec.rb','spec/views/roles/show.html.erb_spec.rb','spec/requests/roles_spec.rb']
+    removing_files += ['spec/models/oauth_profile_spec.rb']
+    removing_files.each do |filename|
+      remove_file filename
+    end
+    template('spec/helpers/roles_helper_spec.erb', 'spec/helpers/roles_helper_spec.rb')
+    
   end
       
   def execute
