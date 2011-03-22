@@ -17,7 +17,7 @@ Devisable supports rails 3 with ruby >= 1.9.2.
 
   gem install devisable
   
-Then Add devisable to your gemfile
+  Then Add devisable to your gemfile
 
   rails generate devisable --help
   
@@ -29,7 +29,7 @@ Use --help to see a list of complete options
   
 Runtime Options:
   
-  -c, [--config]    # Configuration Options for devise. ie 1,2,3,7,11
+  -c, [--config]    # Configuration Options for devise. ie 1,2,3,7,11 (see Devise options below)
   -t, [--twitteroauth]    # Twitter Oauth key and secret seperated by , (comma). ie 123lk23jjsdfklsd,2l4kljknsdjlsdf
   -o, [--facebookoauth]    # Facebook Oauth key, secret and client_id seperated by , (comma). ie 123lk23jjsdfklsd,2l4kljknsdjlsdf,102092932
   -g, [--gems]      # Version of the gems you want to use seperated by Devise,Warden,Cancan. ie 1.1.5,0.1.1,1.5.1  
@@ -68,7 +68,7 @@ Twitter Oauth - Note you will need to setup your app in twitter before running t
   
 Facebook Oauth
 
-  rails generate devisable -c 2,3 -o <key>,<secret>,app_id -u <url_to_your_project>
+  rails generate devisable -c 2,3 -o <key>,<secret>,<app_id> -u <url_to_your_project>
   
   rails generate devisable -c 2,3 -o asdf489fhkbnajbsdf,2uh3uh383493hkjdf,10100101001 -u http://dev.yoururl.com
   
@@ -97,6 +97,12 @@ Add extra fields to the user model
 * Commit and push until you are happy with your contribution
 * Make sure to add tests for it. This is important so I don't break it in a future version unintentionally.
 * Please try not to mess with the Rakefile, version, or history. If you want to have your own version, or is otherwise necessary, that is fine, but please isolate to its own commit so I can cherry-pick around it.
+
+== TODOS
+
+* Be able to tie your facebook, twitter, and normal authentication options to each other.
+* Support for haml and sass instead of erb
+* Add Facebook javascript autologin option
 
 == Copyright
 
