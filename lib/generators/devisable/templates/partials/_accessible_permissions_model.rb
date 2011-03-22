@@ -3,7 +3,7 @@
 #   Role.reflect_on_all_associations(:has_and_belongs_to_many).first.class_name => "User" 
 #   Role.reflect_on_all_associations(:has_many).first.class_name
 # @return [Array] Array of permissions for the current user
-def accessible_permissions
+def self.accessible_permissions
   @accessible_permissions = []
   controllers = Dir.new("#{RAILS_ROOT}/app/controllers").entries
   controllers = controllers.map { |controller|  controller.downcase.gsub("_controller.rb","").singularize if controller =~ /_controller/ }.compact

@@ -207,6 +207,7 @@ class DevisableGenerator < Rails::Generators::Base
       @facebook_client_id = @@actual_configuration_options['facebook_oauth'][2]
       @url = @@actual_configuration_options['url']
       #/config/initializers/devise.rb
+      remove_file "config/initializers/devise.rb"
       template "devise_initializer.erb", "config/initializers/devise.rb"
       
       # remove user password from devise sign in page
@@ -345,7 +346,7 @@ class DevisableGenerator < Rails::Generators::Base
     
     
     rep_str = load_erb_string('partials/_accessible_permissions_model.rb')
-    gsub_file "app/models/roles.rb" , /^(\s)*end\Z/m, rep_str
+    gsub_file "app/models/role.rb", /^(\s)*end\Z/m, rep_str
     rep_str = load_erb_string('partials/_accessible_permissions_controller.rb')
     gsub_file "app/controllers/roles_controller.rb" , /^(\s)*end\Z/m, rep_str
     gsub_file "app/controllers/roles_controller.rb" , "format.html { redirect_to(roles_url) }", "format.html { redirect_to(roles_url, :notice => 'Role was successfully deleted.') }"
@@ -413,9 +414,10 @@ class DevisableGenerator < Rails::Generators::Base
   
   def add_rspec_tests
     ['ability_spec','permission_spec','role_spec','user_spec'].each do |filename| 
-      template('spec/models/#{filename}.erb', 'spec/models/#{filename}.rb')
+      remove_file "spec/models/#{filename}.rb"
+      template("spec/models/#{filename}.erb", "spec/models/#{filename}.rb")
     end
-    template('roles/helpers/roles_helper_spec.erb', 'spec/models/roles_helper_spec.rb')
+    template('spec/helpers/roles_helper_spec.erb', 'spec/models/roles_helper_spec.rb')
   end
       
   def execute
