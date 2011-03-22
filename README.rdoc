@@ -1,8 +1,94 @@
-= devise_generator
+= Devisable
 
-Description goes here.
+Start your rails project off right with Devisable. 
 
-== Contributing to devise_generator
+It is a quick and easy generator that sets up devise,cancan and/or oauth on your site.  It:
+
+* Supports facebook and twitter oauth.
+* Uses cancan permissions
+* Has a user and roles tool so you can change permissions inside a gui
+* Supports all devise options
+* Contains rspec and cucumber test options
+* Can be added to existing project that don't already have devise.
+
+== Installation
+
+Devisable supports rails 3 with ruby >= 1.9.2.  
+
+  gem install devisable
+  
+Then Add devisable to your gemfile
+
+  rails generate devisable --help
+  
+== Usage
+
+It is always good practice to start a new branch in your repo before making major updates like when using devisable.
+
+Use --help to see a list of complete options
+  
+Runtime Options:
+  
+  -c, [--config]    # Configuration Options for devise. ie 1,2,3,7,11
+  -t, [--twitteroauth]    # Twitter Oauth key and secret seperated by , (comma). ie 123lk23jjsdfklsd,2l4kljknsdjlsdf
+  -o, [--facebookoauth]    # Facebook Oauth key, secret and client_id seperated by , (comma). ie 123lk23jjsdfklsd,2l4kljknsdjlsdf,102092932
+  -g, [--gems]      # Version of the gems you want to use seperated by Devise,Warden,Cancan. ie 1.1.5,0.1.1,1.5.1  
+  -d, [--denied]        # add this option if you want to add a customized permission denied message
+  -e, [--extra]         # Extra fields added to the user model. ie first_name:string,last_name:string  
+  -n, [--new]           # If the project is brand new.  Will remove the index.html and add the root route
+  -s, [--sudo]          # Use sudo for the gem install commands (for non rvm/osx users)
+  -u, [--url]           # Rool url for your app in development
+  -C, [--cucumber]      # Include cucumber tests, currently does not support oauth
+  
+Devise Options (used with the -c command)
+
+  1.  Database Authenticatable: encrypts and stores a password in the database to validate the authenticity of an user while signing in. The authentication can be done both through POST requests or HTTP Basic Authentication.
+  2.  Token Authenticatable: signs in an user based on an authentication token (also known as “single access token”). The token can be given both through query string or HTTP Basic Authentication.
+  3.  Oauthable: adds OAuth2 support
+  4.  Confirmable: sends emails with confirmation instructions and verifies whether an account is already confirmed during sign in.
+  5.  Recoverable: resets the user password and sends reset instructions.
+  6.  Registerable: handles signing up users through a registration process, also allowing them to edit and destroy their account.
+  7.  Rememberable: manages generating and clearing a token for remembering the user from a saved cookie.
+  8.  Trackable: tracks sign in count, timestamps and IP address.
+  9.  Timeoutable: expires sessions that have no activity in a specified period of time.
+  10. Validatable: provides validations of email and password. It’s optional and can be customized, so you’re able to define your own validations.
+  11. Lockable: locks an account after a specified number of failed sign-in attempts. Can unlock via email or after a specified time period.
+  
+To just setup Basic authentication with devisable
+
+  rails generate devisable
+  
+  This will setup with the devise options 1,4,5,7,8,10
+
+Twitter Oauth - Note you will need to setup your app in twitter before running this
+
+  rails generate devisable -c 2,3 -t <key>,<secret> -u <url_to_your_project>
+
+  rails generate devisable -c 2,3 -t asdf489fhkbnajbsdf,2uh3uh383493hkjdf -u http://dev.yoururl.com
+  
+Facebook Oauth
+
+  rails generate devisable -c 2,3 -o <key>,<secret>,app_id -u <url_to_your_project>
+  
+  rails generate devisable -c 2,3 -o asdf489fhkbnajbsdf,2uh3uh383493hkjdf,10100101001 -u http://dev.yoururl.com
+  
+All three (normal authentication,twitter_oauth, facebook_oauth)
+
+  rails generate devisable -c 1,2,3,5,6,7,8 -t asdf489fhkbnajbsdf,2uh3uh383493hkjdf -o asdf489fhkbnajbsdf,2uh3uh383493hkjdf,10100101001 -u http://dev.yoururl.com
+  
+Starting a project - Use the -n option
+
+  rails generate devisable -c 1,2,3,5,6,7,8 -t asdf489fhkbnajbsdf,2uh3uh383493hkjdf -o asdf489fhkbnajbsdf,2uh3uh383493hkjdf,10100101001 -n -u http://dev.yoururl.com
+  
+Add Cucumber tests - use the -C option
+  
+  rails generate devisable -c 1,2,3,5,6,7,8 -t asdf489fhkbnajbsdf,2uh3uh383493hkjdf -o asdf489fhkbnajbsdf,2uh3uh383493hkjdf,10100101001 -n -C -u http://dev.yoururl.com 
+
+Add extra fields to the user model
+
+  rails generate devisable -e first_name:string,last_name:string
+
+== Contributing to devisable
  
 * Check out the latest master to make sure the feature hasn't been implemented or the bug hasn't been fixed yet
 * Check out the issue tracker to make sure someone already hasn't requested it and/or contributed it
