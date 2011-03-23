@@ -9,7 +9,7 @@ It is a quick and easy generator that sets up devise,cancan and/or oauth on your
 * Has a user and roles tool so you can change permissions inside a gui
 * Supports all devise options
 * Contains rspec and cucumber test options
-* Can be added to existing project that don't already have devise.
+* Can be added to existing project that don't already have devise.  More work will be required here because you will have to move around files to match your project.
 
 == Installation
 
@@ -23,7 +23,9 @@ Devisable supports rails 3 with ruby >= 1.9.2.
   
 == Usage
 
-It is always good practice to start a new branch in your repo before making major updates like when using devisable.
+  It is always good practice to start a new branch in your repo before making major updates like when using devisable.  
+
+  At least make sure you have committed all updates prior, in case you have to rollback.
 
 Use --help to see a list of complete options
   
