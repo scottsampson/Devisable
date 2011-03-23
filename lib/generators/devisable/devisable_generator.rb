@@ -441,6 +441,7 @@ class DevisableGenerator < Rails::Generators::Base
   
   #adds the rspec tests
   def add_rspec_tests
+    rake('db:create')
     generate('rspec:install')
     ['ability_spec','permission_spec','role_spec','user_spec'].each do |filename| 
       remove_file "spec/models/#{filename}.rb"
