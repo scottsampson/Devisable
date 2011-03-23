@@ -15,13 +15,13 @@ require 'jeweler'
 
 Jeweler::Tasks.new do |gem|
   # gem is a Gem::Specification... see http://docs.rubygems.org/read/chapter/20 for more options
-  gem.name = "devisable"
+  gem.name = "Devisable"
   gem.homepage = "http://github.com/scottsampson/devisable"
   gem.license = "MIT"
-  gem.summary = "Generates for a complete devise install including cancan, and oauth"
+  gem.summary = "Generates a complete devise install including cancan, and oauth"
   gem.description = "Generates initial code for a devise install.  Gives the options for oauth, using cancan, and creating a user tool to manage the users."
   gem.email = "scott@cloudspace.com"
-  gem.authors = ["ScottSampson"]
+  gem.authors = ["Scott Sampson","Jeremiah Hemphill"]
   # Include your dependencies below. Runtime dependencies are required when using your gem,
   # and development dependencies are only needed for development (ie running rake tasks, tests, etc)
   #  gem.add_runtime_dependency 'jabber4r', '> 0.1'
