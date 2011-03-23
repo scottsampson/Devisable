@@ -111,8 +111,29 @@ After running the generator you will most likely need to do a migration.
 * Support for haml and sass instead of erb
 * Add Facebook javascript autologin option
 
+== Gems
+
+devisable uses the following gems:
+
+* devise (https://github.com/plataformatec/devise)
+* cancan (https://github.com/ryanb/cancan.git)
+* warden_oauth (https://github.com/scottsampson/warden_oauth)
+* json_pure (https://github.com/flori/json)
+* twitter_oauth (https://github.com/moomerman/twitter_oauth.git)
+* cucumber (https://github.com/aslakhellesoy/cucumber)
+* cucumber-rails (https://github.com/aslakhellesoy/cucumber-rails)
+* capybara (https://github.com/jnicklas/capybara)
+* database_cleaner (https://github.com/bmabey/database_cleaner)
+* rspec-rails (https://github.com/rspec/rspec-rails)
+
+== Maintainers
+
+* cloudspace (http://www.cloudspace.com - https://github.com/cloudspace)
+* Scott Sampson (http://github.com/scottsampson)
+* Jeremiah Hemphill (http://github.com/jeremiahishere)
+
 == Copyright
 
-Copyright (c) 2011 Scott. See LICENSE.txt for
+Copyright (c) 2011 cloudspace. See LICENSE.txt for
 further details.
 
