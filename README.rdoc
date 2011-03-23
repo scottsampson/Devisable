@@ -59,6 +59,10 @@ To just setup Basic authentication with devisable
   rails generate devisable
   
   This will setup with the devise options 1,4,5,7,8,10
+  
+Starting a project - Use the -n option
+
+  rails generate devisable -n
 
 Twitter Oauth - Note you will need to setup your app in twitter before running this
 
@@ -75,11 +79,7 @@ Facebook Oauth
 All three (normal authentication,twitter_oauth, facebook_oauth)
 
   rails generate devisable -c 1,2,3,5,6,7,8 -t asdf489fhkbnajbsdf,2uh3uh383493hkjdf -o asdf489fhkbnajbsdf,2uh3uh383493hkjdf,10100101001 -u http://dev.yoururl.com
-  
-Starting a project - Use the -n option
-
-  rails generate devisable -c 1,2,3,5,6,7,8 -t asdf489fhkbnajbsdf,2uh3uh383493hkjdf -o asdf489fhkbnajbsdf,2uh3uh383493hkjdf,10100101001 -n -u http://dev.yoururl.com
-  
+    
 Add Cucumber tests - use the -C option
   
   rails generate devisable -c 1,2,3,5,6,7,8 -t asdf489fhkbnajbsdf,2uh3uh383493hkjdf -o asdf489fhkbnajbsdf,2uh3uh383493hkjdf,10100101001 -n -C -u http://dev.yoururl.com 
