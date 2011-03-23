@@ -15,9 +15,9 @@ It is a quick and easy generator that sets up devise,cancan and/or oauth on your
 
 Devisable supports rails 3 with ruby >= 1.9.2.
 
-  gem install Devisable
+  gem install devisable
   
-  Then Add Devisable to your gemfile
+  Then Add devisable to your gemfile
 
   rails generate devisable --help
   
