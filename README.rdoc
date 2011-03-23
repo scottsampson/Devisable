@@ -15,9 +15,9 @@ It is a quick and easy generator that sets up devise,cancan and/or oauth on your
 
 Devisable supports rails 3 with ruby >= 1.9.2.
 
-  gem install devisable
+  Add devisable to your gemfile
   
-  Then Add devisable to your gemfile
+  Run bundle
 
   rails generate devisable --help
   
@@ -87,6 +87,11 @@ Add Cucumber tests - use the -C option
 Add extra fields to the user model
 
   rails generate devisable -e first_name:string,last_name:string
+  
+After running the generator you will most likely need to do a migration.
+
+  rake db:migrate
+  
 
 == Contributing to devisable
  
