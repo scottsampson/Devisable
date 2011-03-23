@@ -22,6 +22,7 @@ Gem::Specification.new do |s|
     "README.rdoc",
     "Rakefile",
     "VERSION",
+    "devisable.gemspec",
     "lib/generators/devisable/USAGE",
     "lib/generators/devisable/devisable_generator.rb",
     "lib/generators/devisable/templates/app/controllers/registrations_controller.erb",
