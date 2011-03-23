@@ -15,7 +15,7 @@ require 'jeweler'
 
 Jeweler::Tasks.new do |gem|
   # gem is a Gem::Specification... see http://docs.rubygems.org/read/chapter/20 for more options
-  gem.name = "Devisable"
+  gem.name = "devisable"
   gem.homepage = "http://github.com/scottsampson/devisable"
   gem.license = "MIT"
   gem.summary = "Generates a complete devise install including cancan, and oauth"
