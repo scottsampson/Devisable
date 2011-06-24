@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{devisable}
-  s.version = "0.1.1"
+  s.version = "0.1.2"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Scott Sampson", "Jeremiah Hemphill"]
-  s.date = %q{2011-03-23}
+  s.date = %q{2011-06-24}
   s.description = %q{Generates initial code for a devise install.  Gives the options for oauth, using cancan, and creating a user tool to manage the users.}
   s.email = %q{scott@cloudspace.com}
   s.extra_rdoc_files = [
@@ -79,6 +79,7 @@ Gem::Specification.new do |s|
     "lib/generators/devisable/templates/spec/models/role_spec.erb",
     "lib/generators/devisable/templates/spec/models/user_spec.erb",
     "pkg/devisable-0.1.0.gem",
+    "pkg/devisable-0.1.1.gem",
     "pkg/devise_generator-0.1.0.gem",
     "test/helper.rb",
     "test/test_devise_generator.rb"
