@@ -28,6 +28,6 @@ end
 
 Given /^I am signed out$/ do
   Given %{I am on the sign out page}
-  Then %{I should be on the homepage page}
+  Then %{I should be on the homepage}
   #And %{I should see "Sign out successful"}
 end

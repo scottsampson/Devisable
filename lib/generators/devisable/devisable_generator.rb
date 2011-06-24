@@ -169,6 +169,9 @@ class DevisableGenerator < Rails::Generators::Base
     end
     rep_str = '  devise ' + rep_str[1..-1] + "\n"
     gsub_file "app/models/user.rb" , /^[ ]*(devise)([^\n]*)(\n)(.*)(\s)/, rep_str
+
+    str = "attr_accessible :username\n"
+    insert_into_file "app/models/user.rb", str, :after => "# Setup accessible (or protected) attributes for your model\n"  
     
     rep_str = load_erb_string('partials/_user_model_methods.erb')
     replace_last_end_in_file_with("app/models/user.rb",rep_str)
@@ -246,15 +249,15 @@ class DevisableGenerator < Rails::Generators::Base
       insert_into_file user_migration_file, fields, :after => "t.token_authenticatable\n"
       
       #add correct fields to user model
-      str = "attr_accessible :default_provider, :username\n"
-      insert_into_file "app/models/user.rb", str, :after => "# Setup accessible (or protected) attributes for your model\n"  
+      str = "attr_accessible :default_provider\n"
+      insert_into_file "app/models/user.rb", str, :after => "attr_accessible :username\n"  
       
       generate("model", "oauth_profile user_id:integer provider:string token:string secret:string username:string email:string name:string img_url:string")
             
       insert_into_file "app/models/oauth_profile.rb", "belongs_to :user\n", :after => "class OauthProfile < ActiveRecord::Base\n"
       
       insert_into_file "app/models/user.rb", "has_many :oauth_profiles\n", :after => "class User < ActiveRecord::Base\n"  
-      
+    
     end
     
     # Link to "Login With Twitter/Facebook" somewhere in your view
