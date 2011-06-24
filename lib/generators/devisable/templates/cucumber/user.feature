@@ -13,7 +13,7 @@ Feature: Manage users
     Given I am signed in as "user@cloudspace.com"
     And I only have the role "GeneralUser"
     When I go to the users page
-    When I should be on the home page
+    When I should be on the homepage
     And I should see "You are not authorized to access this page."
 
   Scenario: Editing a User

@@ -7,35 +7,28 @@ describe Ability do
       :name => 'SuperAdmin'
     })
     
-    @role2 = Role.new({
-      :name => 'RoleUser'
-    })
-    
-    @user = User.new({:email => 'fred@testsite.com'})
-    @user2 = User.new({:email => 'terry@testsite.com'})
+    @user = User.new({:email => 'fred@testsite.com', :username=>'fred', :password=>'pwfred'})
     @user.roles << @role
-    @user2.roles << @role2
-    
     @role.permissions << Permission.new({:model => 'Role',:ability => 'Add'})
     @role.permissions << Permission.new({:model => 'Role',:ability => 'Edit'})
     @role.permissions << Permission.new({:model => 'Role',:ability => 'Delete'})
     @role.permissions << Permission.new({:model => 'Role',:ability => 'View'})
-    @role.save
-    @user.save
+    @role.save!
+    @user.save!
     @user_ability = Ability.new(@user)
     
     @role2 = Role.new({
       :name => 'RoleUser'
     })
     
-    @user2 = User.new({:email => 'terry@testsite.com'})
+    @user2 = User.new({:email => 'terry@testsite.com', :username=>'terry', :password=>'pwterry'})
     @user2.roles << @role2
     @role2.permissions << Permission.new({:model => 'Role',:ability => 'add'})
     @role2.permissions << Permission.new({:model => 'Role',:ability => 'edit'})
     @role2.permissions << Permission.new({:model => 'Role',:ability => 'delete'})
     @role2.permissions << Permission.new({:model => 'Role',:ability => 'View'})
-    @role2.save
-    @user2.save
+    @role2.save!
+    @user2.save!
     @user_ability2 = Ability.new(@user2)
     
   end
