@@ -80,6 +80,7 @@ Gem::Specification.new do |s|
     "lib/generators/devisable/templates/spec/models/user_spec.erb",
     "pkg/devisable-0.1.0.gem",
     "pkg/devisable-0.1.1.gem",
+    "pkg/devisable-0.1.2.gem",
     "pkg/devise_generator-0.1.0.gem",
     "test/helper.rb",
     "test/test_devise_generator.rb"
