@@ -16,7 +16,7 @@ describe Role do
     @role2 = Role.new({
       :name => 'Scott'
     })
-    @user = User.new({:email => 'fred@testsite.com'})
+    @user = User.new({:email => 'fred@testsite.com', :password => 'password'})
     @permission = Permission.new({:model => 'User',:ability => 'Add'})
   end
   
