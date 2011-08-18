@@ -29,7 +29,8 @@ class DevisableGenerator < Rails::Generators::Base
     'extra' => [],
     'new' => false,
     'sudo' => false,
-    'url' => 'http://localhost:3000'
+    'url' => 'http://localhost:3000',
+    'jslibrary' => ''
   }
   
   
@@ -91,6 +92,13 @@ class DevisableGenerator < Rails::Generators::Base
       opts.on("-C", "--cucumber [string]", String, "Include cucumber tests") do |v|
         @@actual_configuration_options['cucumber'] = true
       end
+      opts.on("-j", "--jslibrary (jquery|prototype)", String, "write out using the jquery or prototype libraries") do |j|
+        if j =~ /jquery/i
+          @@actual_configuration_options['jslibrary'] = 'jquery'
+        elsif j =~ /prototype/i
+          @@actual_configuration_options['jslibrary'] = 'prototype'
+        end
+      end
     end.parse!
     execute
   end
@@ -100,7 +108,7 @@ class DevisableGenerator < Rails::Generators::Base
   def throw_error(error = '')
     puts error
     exit();
-  end  
+  end
   
   #replaces the last string 'end' in a file with the value of rep_str
   #
@@ -400,7 +408,7 @@ class DevisableGenerator < Rails::Generators::Base
   
   #adds the javascript for the role permissions checkboxes
   def add_javascript
-    rep_str = load_erb_string('partials/_permission_manage.js')
+    rep_str = load_erb_string('partials/_permission_manage_' + @@actual_configuration_options['jslibrary'] + '.js')
     append_to_file "public/javascripts/application.js", rep_str
   end
 
