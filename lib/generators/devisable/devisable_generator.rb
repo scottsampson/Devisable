@@ -29,7 +29,8 @@ class DevisableGenerator < Rails::Generators::Base
     'extra' => [],
     'new' => false,
     'sudo' => false,
-    'url' => 'http://localhost:3000'
+    'url' => 'http://localhost:3000',
+    'jslibrary' => ''
   }
   
   
@@ -94,7 +95,7 @@ class DevisableGenerator < Rails::Generators::Base
       opts.on("-j", "--jslibrary (jquery|prototype)", String, "write out using the jquery or prototype libraries") do |j|
         if j =~ /jquery/i
           @@actual_configuration_options['jslibrary'] = 'jquery'
-        else if j =~ /prototype/i
+        elsif j =~ /prototype/i
           @@actual_configuration_options['jslibrary'] = 'prototype'
         end
       end
