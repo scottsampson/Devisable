@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{devisable}
-  s.version = "0.1.3"
+  s.version = "0.2.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Scott Sampson", "Jeremiah Hemphill"]
-  s.date = %q{2011-08-04}
+  s.date = %q{2011-08-18}
   s.description = %q{Generates initial code for a devise install.  Gives the options for oauth, using cancan, and creating a user tool to manage the users.}
   s.email = %q{scott@cloudspace.com}
   s.extra_rdoc_files = [
@@ -68,8 +68,8 @@ Gem::Specification.new do |s|
     "lib/generators/devisable/templates/partials/_migration_up.rb",
     "lib/generators/devisable/templates/partials/_oauth_user_table_fields.erb",
     "lib/generators/devisable/templates/partials/_permission_equals.rb",
-    "lib/generators/devisable/templates/partials/_permission_manage_prototype.js",
     "lib/generators/devisable/templates/partials/_permission_manage_jquery.js",
+    "lib/generators/devisable/templates/partials/_permission_manage_prototype.js",
     "lib/generators/devisable/templates/partials/_role_permission.rb",
     "lib/generators/devisable/templates/partials/_roles_index_delete.erb",
     "lib/generators/devisable/templates/partials/_user_model_methods.erb",
@@ -82,6 +82,7 @@ Gem::Specification.new do |s|
     "pkg/devisable-0.1.0.gem",
     "pkg/devisable-0.1.1.gem",
     "pkg/devisable-0.1.2.gem",
+    "pkg/devisable-0.1.3.gem",
     "pkg/devise_generator-0.1.0.gem",
     "test/helper.rb",
     "test/test_devise_generator.rb"
