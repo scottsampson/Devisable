@@ -30,7 +30,7 @@ class DevisableGenerator < Rails::Generators::Base
     'new' => false,
     'sudo' => false,
     'url' => 'http://localhost:3000',
-    'jslibrary' => ''
+    'jslibrary' => 'jquery'
   }
   
   
